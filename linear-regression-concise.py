@@ -33,10 +33,10 @@ net[0].bias.data.fill_(0)
 loss=nn.MSELoss()#计算均方误差使用的是MSELoss类，也称为平方𝐿2范数, 默认情况下，它返回所有样本损失的平均值。
 
 #第七步，定义优化算法
-trainer = torch.optim.SGD(net.parameters(), lr=0.01)#生成一个优化器对象，net.parameters()返回net的全部待求参数，即上文的weight和bias,学习率0.03，
+trainer = torch.optim.SGD(net.parameters(), lr=0.03)#生成一个优化器对象，net.parameters()返回net的全部待求参数，即上文的weight和bias,学习率0.03，
 
 #第八步，训练
-num_epochs=5
+num_epochs=3
 for epoch in range(num_epochs):
     for X,y in data_iter:
         l=loss(net(X),y)#net是模型

@@ -21,7 +21,7 @@ features,labels=synthetic_data(true_w,true_b,1000)
 #中途检查
 print('features:',features[0],'\nlabel:',labels[0])#检查生成的第一个样本
 d2l.set_figsize()#设置图形尺寸为默认
-d2l.plt.scatter(features[:,(1)].detach().numpy(),labels.detach().numpy(),1);#plt是绘图函数，scatter指散点图，features[:,(1)].detach().numpy()是第一个参数即横坐标，取features的所有行，第1列，detach是指将其分离出来，然后转换为numpy，才能绘制散点图。labels.detach().numpy()是第二个参数即纵坐标，1是散点大小
+d2l.plt.scatter(features[:,1].detach().numpy(),labels.detach().numpy(),1);#plt是绘图函数，scatter指散点图，features[:,(1)].detach().numpy()是第一个参数即横坐标，取features的所有行，第1列，detach是指将其分离出来，然后转换为numpy，才能绘制散点图。labels.detach().numpy()是第二个参数即纵坐标，1是散点大小
 plt.show()#展示图像的
 
 #第四步，读取生成好的训练集，给搞成方便学习的样子
