@@ -1,5 +1,5 @@
 #线性回归的简洁实现
-#第一步，import一些你需要的包
+#第一步，import一些你需要的包包
 import numpy as np#NumPy是一个开源的Python科学计算库，它广泛应用于数据科学、机器学习、科学计算和数据分析等领域。NumPy的主要特点是提供了一个强大的多维数组对象ndarray以及用于操作这些数组的函数集。
 import torch
 from torch.utils import data#torch.utils.data模块提供了用于数据加载和处理的工具，它允许用户更高效地加载和访问数据集，特别是在训练机器学习模型时。
