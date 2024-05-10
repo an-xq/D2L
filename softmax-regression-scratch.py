@@ -198,6 +198,7 @@ def train_ch3(net,train_iter,test_iter,loss,num_epochs,updater):
     assert train_acc <= 1 and train_acc > 0.7, train_acc
     assert test_acc <= 1 and test_acc > 0.7, test_acc
 
+#8.优化算法
 lr=0.1
 def updater(batch_size):
     return d2l.sgd([W,b],lr,batch_size)
