@@ -15,6 +15,7 @@ b1=nn.Parameter(torch.zeros(num_hiddens,requires_grad=True))
 W2=nn.Parameter(torch.randn(num_hiddens,num_outputs,requires_grad=True)*0.01)
 b2=nn.Parameter(torch.zeros(num_outputs,requires_grad=True))
 params=[W1,b1,W2,b2]#用列表来管理参数
+print(W1,b1,W2,b2)
 #randn均值为0、标准差为1的标准正态分布,*0.01将标准正态分布的随机值缩放到均值为0、标准差为0.01的范围内，即将每个值乘以0.01
 #Parameter参数的意思，大概就是pytorch的优化器会判断这个tensor是不是parameters，如果是就会每次迭代都更新这个参数,比如说如果只是torch的tensor，在pytorch写好的优化器里就不会更新
 #一般来说，对于模型参数，建议使用nn.Parameter来明确地表示这是一个模型的可学习参数；而对于其他张量，可以直接使用requires_grad=True来指示PyTorch需要计算其梯度。
@@ -116,9 +117,11 @@ def train_epoch_ch3(net,train_iter,loss,updater):
             updater.zero_grad()
             l.mean().backward()
             updater.step()
+            # print("111111111")
         else:
             l.sum().backward()
             updater(X.shape[0])
+            # print("123456789")
         metric.add(float(l.sum()),accuracy(y_hat,y),y.numel())#加入本batch的总交叉熵，预测正确的个数，batch总数
     return metric[0]/metric[2],metric[1]/metric[2]#返回平均交叉熵和预测成功的比例
 
@@ -134,8 +137,12 @@ def train_ch3(net,train_iter,test_iter,loss,num_epochs,updater):
     assert test_acc <= 1 and test_acc > 0.7, test_acc
 
 #7.训练
-num_epochs,lr=10,0.1
+num_epochs,lr=5,0.1
 updater=torch.optim.SGD(params,lr=lr)
+if isinstance(updater,torch.optim.Optimizer):
+    print("YES")
+else:
+    print("NO")
 train_ch3(net, train_iter, test_iter, loss, num_epochs, updater)
 
 
