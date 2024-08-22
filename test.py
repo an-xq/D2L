@@ -1,17 +1,21 @@
 import numpy as np
 import torch
+import math
+import random
+# import string
 
-def dropout(X,p):
-    assert 0<=p<=1
-    if p==1:
-        return X
-    if p==0:
-        return torch.zeros_like(X)
-    temp=torch.randn(X.shape)
-    m=(temp>p).float()
-    return X*m /(1.0-p)
+# x=12
+# print("********bell_ring %d" % (x))
+# print("jello{:*^2}\tworld".format("aaa"))
+# print("{:->10}".format("Hello"))
 
-X=torch.arange(16).reshape((2, 8))
-y=dropout(X,0.5)
-print(X)
-print(y)
+# print("abcd{:f}efg".format(12))
+
+# print("{:#x}".format(16))
+
+# print("总共%d%%" % 100)
+
+str="asdcf"
+qwe=str.capitalize()
+
+print(qwe)
