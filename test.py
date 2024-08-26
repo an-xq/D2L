@@ -3,19 +3,12 @@ import torch
 import math
 import random
 # import string
+import time
+import calendar
+from datetime import datetime
 
-# x=12
-# print("********bell_ring %d" % (x))
-# print("jello{:*^2}\tworld".format("aaa"))
-# print("{:->10}".format("Hello"))
+from package_an import pachkage1
+from package_an import package2
 
-# print("abcd{:f}efg".format(12))
-
-# print("{:#x}".format(16))
-
-# print("总共%d%%" % 100)
-
-str="asdcf"
-qwe=str.capitalize()
-
-print(qwe)
+pachkage1.fun1()
+package2.fun2()
