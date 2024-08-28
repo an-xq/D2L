@@ -7,8 +7,8 @@ import time
 import calendar
 from datetime import datetime
 
-from package_an import pachkage1
-from package_an import package2
-
-pachkage1.fun1()
-package2.fun2()
+ob=open("test.txt","w")
+print(ob.name)
+print(ob.closed)
+print(ob.mode)
+print(ob.softspace)
