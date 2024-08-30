@@ -9,6 +9,8 @@ w_true = torch.tensor([1.0,2.0])
 b_true = 3.0
 data_num = 1000
 features,labels = d2l.synthetic_data(w_true,b_true,data_num)
+print("features",type(features))
+print("labels",type(labels))
 
 #数据迭代器生成
 def data_loader(data_arrs,batch_size,is_train=True):
