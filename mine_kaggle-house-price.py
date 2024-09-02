@@ -11,8 +11,10 @@ from d2l import torch as d2l
 from torch.utils import data
 
 #数据读取
-train_data=pd.read_csv('./data/kaggle_house_price/kaggle_house_pred_train.csv') #读入训练数据
-test_data=pd.read_csv('./data/kaggle_house_price/kaggle_house_pred_test.csv') #读入测试数据
+# train_data=pd.read_csv('./data/kaggle_house_price/kaggle_house_pred_train.csv') #读入训练数据
+# test_data=pd.read_csv('./data/kaggle_house_price/kaggle_house_pred_test.csv') #读入测试数据
+train_data=pd.read_csv('./data/california-house-prices/train.csv') #读入训练数据
+test_data=pd.read_csv('./data/california-house-prices/test.csv') #读入测试数据
 # print(type(test_data))#验证
 # print(train_data.head())
 rows,cols=test_data.shape#验证
@@ -20,9 +22,10 @@ print(rows,"*",cols)
 rows,cols=train_data.shape
 print(rows,"*",cols)
 
+
 #数据处理
-labels = pd.DataFrame(train_data['SalePrice'])#记录训练数据的price
-train_data=train_data.drop('SalePrice', axis=1)#并删除
+labels = pd.DataFrame(train_data['Sold Price'])#记录训练数据的price
+train_data=train_data.drop('Sold Price', axis=1)#并删除
 rows,cols=test_data.shape#验证
 print(rows,"*",cols)
 rows,cols=train_data.shape
@@ -50,9 +53,9 @@ full_data = pd.get_dummies(full_data,dtype=int)#将所有列独热编码
 print(full_data.head(10))
 
 
-output_file_path = './data/kaggle_house_price/processed_data.csv'#将处理后的DataFrame导出到一个新的CSV文件，以供检查
-full_data.to_csv(output_file_path, index=False)
-print(f"\n处理后的 DataFrame 已保存到 '{output_file_path}'")
+# output_file_path = './data/california-house-prices/processed_data.csv'#将处理后的DataFrame导出到一个新的CSV文件，以供检查
+# full_data.to_csv(output_file_path, index=False)
+# print(f"\n处理后的 DataFrame 已保存到 '{output_file_path}'")
 
 train_features = full_data.head(train_data.shape[0])
 test_features = full_data.iloc[train_data.shape[0]:]
@@ -68,6 +71,7 @@ def data_loader(data_arrs,batch_size,is_train=True):
 
 train_features_tensor = torch.tensor(train_features.values, dtype=torch.float32)
 labels_tensor = torch.tensor(labels.values, dtype=torch.float32).unsqueeze(1)  # 确保标签也变成2D张量
+test_features_tensor = torch.tensor(test_features.values, dtype=torch.float32)
 
 batchsize = 20
 dataloader=data_loader([train_features_tensor,labels_tensor],batchsize)
@@ -94,6 +98,7 @@ loss = nn.MSELoss()
 
 def log_rmse(labels_hat, labels):
     # 为了在取对数时进一步稳定该值，将小于1的值设置为1
+    labels_hat=labels_hat+1
     clipped_preds = torch.clamp(labels_hat, min=1)
 
     if isinstance(labels, pd.DataFrame):
@@ -109,7 +114,7 @@ def log_rmse(labels_hat, labels):
     return torch.sqrt(2 * loss(log_clipped_preds, log_labels).mean())
 
 #优化器
-lr=0.1
+lr=0.5
 trainer = torch.optim.SGD(net.parameters(),lr=lr)
 
 # initial_weight = net[0].weight.clone()  # 记录最初的权重
@@ -141,6 +146,17 @@ if __name__== '__main__':
 
         l=log_rmse(net(train_features_tensor),labels)
         print("epoch:{},l={:.6f}".format(epoch,l))
+
+    final_data = pd.DataFrame(columns=['Id', 'Sold Price'])
+    output_file_path = './data/california-house-prices/submission.csv'#将处理后的DataFrame导出到一个新的CSV文件，以供检查
+    final_data['Id'] = test_data.iloc[:, 0]
+    for index, row in test_data.iterrows():
+        final_data.iloc[index, 0] = test_data.iloc[index, 0]
+        # breakpoint()
+        final_data.iloc[index, 1] = net(test_features_tensor[index,:]).item()
+    final_data.to_csv(output_file_path, index=False)
+    print(f"\n结果已保存 '{output_file_path}'")
+
     # w=model[0].weight.data
     # print(w.size())
     # print(w-w_true.reshape(w.size()).mean())
